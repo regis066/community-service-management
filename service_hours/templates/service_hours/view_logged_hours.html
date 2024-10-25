@@ -1,0 +1,27 @@
+{% extends "base_generic.html" %}
+{% block title %}View Logged Hours{% endblock %}
+{% block content %}
+<h2>Logged Hours</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Project</th>
+            <th>Hours</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in logged_hours %}
+            <tr>
+                <td>{{ entry.project.title }}</td>
+                <td>{{ entry.hours }}</td>
+                <td>{{ entry.date }}</td>  <!-- Ensure this matches your model field name -->
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">No logged hours found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
