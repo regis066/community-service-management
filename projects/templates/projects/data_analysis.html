@@ -1,0 +1,38 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Data Analysis{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Project Data Analysis</h2>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-center shadow-lg">
+                <div class="card-body">
+                    <h5>Total Projects</h5>
+                    <h3>{{ total_projects }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center shadow-lg">
+                <div class="card-body">
+                    <h5>Total Volunteers</h5>
+                    <h3>{{ total_volunteers }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center shadow-lg">
+                <div class="card-body">
+                    <h5>Avg Volunteers/Project</h5>
+                    <h3>{{ avg_volunteers_per_project|floatformat:2 }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        {{ table_html|safe }}
+    </div>
+</div>
+{% endblock %}

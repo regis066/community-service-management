@@ -2,6 +2,7 @@
 {% block title %}{{ project.title }}{% endblock %}
 {% block content %}
 <div class="container mt-5">
+    <!-- Project Details Card -->
     <div class="card shadow-lg border-0 rounded-lg">
         <div class="card-header text-center bg-gradient-primary text-white py-4 rounded-top">
             <h2 class="font-weight-bold" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
@@ -10,10 +11,12 @@
         </div>
         <div class="card-body p-5">
             <div class="row mb-4">
+                <!-- Project Description -->
                 <div class="col-md-6">
                     <h5 class="text-primary font-weight-bold">Project Description</h5>
                     <p class="text-muted">{{ project.description }}</p>
                 </div>
+                <!-- Project Details -->
                 <div class="col-md-6">
                     <h5 class="text-primary font-weight-bold">Project Details</h5>
                     <ul class="list-unstyled text-muted">
@@ -24,6 +27,7 @@
                     </ul>
                 </div>
             </div>
+            <!-- Action Buttons -->
             <div class="text-center mt-5">
                 <form method="post" action="{% url 'join_project' project.id %}" class="d-inline">
                     {% csrf_token %}
@@ -35,6 +39,32 @@
                     <i class="fas fa-clock"></i> Log Service Hours
                 </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Recommended Projects Section -->
+    <div class="mt-5">
+        <h3 class="text-primary font-weight-bold">Recommended Projects</h3>
+        <div class="row">
+            {% if recommended_projects %}
+                {% for rec_project in recommended_projects %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'project_detail' rec_project.id %}" class="text-dark">
+                                    {{ rec_project.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text text-muted">{{ rec_project.description|truncatewords:20 }}</p>
+                            <a href="{% url 'project_detail' rec_project.id %}" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No recommendations available at the moment.</p>
+            {% endif %}
         </div>
     </div>
 </div>

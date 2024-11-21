@@ -1,0 +1,106 @@
+{% extends "base_generic.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Welcome to Your Dashboard, {{ user.username }}!</h2>
+    
+    <!-- Display User Projects -->
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="text-primary font-weight-bold">Your Active Projects</h5>
+            <ul class="list-group">
+                {% for project in user_projects %}
+                    <li class="list-group-item">
+                        <h6><a href="{% url 'project_detail' project.pk %}">{{ project.title }}</a></h6>
+                        <small class="text-muted">Volunteers joined: {{ project.volunteers.count }}</small>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-center">
+                        <em>You have not joined any projects yet.</em>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Display Project Statistics -->
+        <div class="col-md-6">
+            <h5 class="text-primary font-weight-bold">Project Statistics</h5>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>Total Projects:</strong> {{ total_projects }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Total Volunteers:</strong> {{ total_volunteers }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Chart.js Visualizations -->
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h5 class="text-primary font-weight-bold">Volunteers per Project (Bar Chart)</h5>
+            <canvas id="volunteersBarChart"></canvas>
+        </div>
+
+        <div class="col-md-6">
+            <h5 class="text-primary font-weight-bold">Project and Volunteer Proportions (Pie Chart)</h5>
+            <canvas id="projectPieChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Dashboard Footer -->
+    <div class="mt-5 text-center">
+        <a href="{% url 'project_list' %}" class="btn btn-primary">Browse More Projects</a>
+    </div>
+</div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Data for the charts
+    const projectTitles = {{ project_titles|safe }};
+    const volunteersCount = {{ volunteers_count|safe }};
+    const totalProjects = {{ total_projects }};
+    const totalVolunteers = {{ total_volunteers }};
+    
+    // Bar Chart for Volunteers per Project
+    const ctxBar = document.getElementById('volunteersBarChart').getContext('2d');
+    new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: projectTitles,
+            datasets: [{
+                label: 'Volunteers Count',
+                data: volunteersCount,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Pie Chart for Total Projects vs Total Volunteers
+    const ctxPie = document.getElementById('projectPieChart').getContext('2d');
+    new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['Total Projects', 'Total Volunteers'],
+            datasets: [{
+                data: [totalProjects, totalVolunteers],
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                hoverOffset: 4
+            }]
+        }
+    });
+</script>
+
+{% endblock %}

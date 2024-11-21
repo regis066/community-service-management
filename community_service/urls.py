@@ -20,9 +20,9 @@ from django.shortcuts import redirect
 from django.views.generic import RedirectView
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/users/login/')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('projects/', include('projects.urls')),
-    path('service_hours/', include('service_hours.urls')),
-    path('', RedirectView.as_view(url='/users/login/'))
+    path('service_hours/', include('service_hours.urls'))
 ]

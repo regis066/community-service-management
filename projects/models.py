@@ -12,6 +12,13 @@ class Project(models.Model):
     end_date = models.DateField(null=True, blank=True)
     volunteers_needed = models.PositiveIntegerField()  # Changed to PositiveIntegerField
     is_active = models.BooleanField(default=True)
+    category = models.CharField(max_length=100, choices=[
+        ('health', 'Health'),
+        ('education', 'Education'),
+        ('environment', 'Environment'),
+        ('community', 'Community')
+    ], default="community")
+    location = models.CharField(max_length=255, blank=True, null=True, default="Not specified")
     volunteers = models.ManyToManyField(User, related_name='joined_projects', blank=True)
 
     def __str__(self):

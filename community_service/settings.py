@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'community_service.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'community_service_db',
-        'USER': 'django_user',
-        'PASSWORD': 'password',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'csms_fullstack',
+        'USER': 'postgres',
+        'PASSWORD': 'mugreg066',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '5432'
     }
 }
 
